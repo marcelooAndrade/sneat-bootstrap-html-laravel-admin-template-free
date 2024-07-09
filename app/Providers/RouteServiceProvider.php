@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/dashboard';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -29,14 +29,35 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $this->routes(function () {
-            Route::middleware('api')
-                ->prefix('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
+            $this->mapWebRoutes();
+            $this->mapApiRoutes();
+        });
+    }
+    // RouteServiceProvider
 
+    protected function mapWebRoutes()
+    {
+        foreach ($this->centralDomains() as $domain) {
             Route::middleware('web')
+                ->domain($domain)
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
-        });
+        }
+    }
+
+    protected function mapApiRoutes()
+    {
+        foreach ($this->centralDomains() as $domain) {
+            Route::prefix('api')
+                ->domain($domain)
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'));
+        }
+    }
+
+    protected function centralDomains(): array
+    {
+        return config('tenancy.central_domains', []);
     }
 }

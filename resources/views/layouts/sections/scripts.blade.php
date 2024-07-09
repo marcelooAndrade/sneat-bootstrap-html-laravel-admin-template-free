@@ -8,6 +8,7 @@
 <!-- END: Page Vendor JS-->
 <!-- BEGIN: Theme JS-->
 <script src="{{ asset(mix('assets/js/main.js')) }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
 
 <!-- END: Theme JS-->
 <!-- Pricing Modal JS-->
